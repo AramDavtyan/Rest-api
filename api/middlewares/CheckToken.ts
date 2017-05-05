@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken'
 import 'dotenv/config'
 
 export default async (req, res, next) => {
-  const token = req.headers['auth'];
+  let token = req.headers['auth'];
   if (!token) {
     return res.status(403).json({ errmsg: 'Forbidden no token !' });
   }

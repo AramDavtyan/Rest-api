@@ -1,7 +1,7 @@
 class ErrorHandler {
   error(this) {
     this.use((err, req, res, next) => {
-      let { status = '500', errmsg } = err;
+      let { status = '404', errmsg } = err;
       res.status(status).json(errmsg);
     })
   }

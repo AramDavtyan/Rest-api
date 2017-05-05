@@ -14,11 +14,13 @@ export default class Route {
     this.app.post('/signup', AuthController.SignUp) //registration user
     this.app.post('/signin', AuthController.SignIn) //login user
 
-    this.app.get('/users', CheckToken, UserController.getUsers) //get all users
-    this.app.post('/users', UserController.createUsers) //create a user
-    this.app.get('/users/user_id', UserController.sunglUsers) //get single user
-    this.app.put('/users/user_id', UserController.editUsers) //update user
-    this.app.delete('/users/user_id', UserController.deleteUsers) //delete user
+    this.app.post('/forgot', UserController.forGot) //forgot password
+    this.app.get('/forgot/:userpass/:id', UserController.forGotId) //get new password 
+    this.app.put('/forgot/update', UserController.forGotUpdate) //update new password 
+
+    this.app.get('/user/profil/:id', CheckToken, UserController.getUser) //get user 
+    this.app.put('/user/profil/:id', CheckToken, UserController.editUser) //edit user
+    this.app.delete('/user/profil/:id', CheckToken, UserController.deleteUsers) //delete user
     return this.app;
   }
 

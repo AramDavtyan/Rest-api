@@ -6,15 +6,14 @@ mongoose.connect(`localhost:27017/${process.env.DATABASE}`, (err) => {
 })
 
 export interface IUser extends mongoose.Document {
-  login: string;
-  password: string;
+  login: string
+  password: string
 };
 
 export const UserSchema = new mongoose.Schema({
   login: { type: String, required: true, unique: true, lowercase: true, index: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true }
 });
-
 
 const User = mongoose.model<IUser>('user', UserSchema);
 export default User;
