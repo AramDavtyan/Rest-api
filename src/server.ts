@@ -1,20 +1,25 @@
-import 'dotenv/config'
+import 'dotenv/config';
 import * as express from 'express';
-import Route from './routes/Route';
-import ErrorHandler from './middlewares/ErrorHandler'
-
-
+import * as bodyParser from "body-parser";
+import * as Joi from 'joi';
+import * as mongoose from 'mongoose';
+import routes from './routes';
+import config from './config/index';
+import ErrorHandler from './middlewares/ErrorHandler';
 
 class Server {
   private static _instance: Server;
   private app: express.Application;
   public RouteInit;
-  private apiVersion: string;
+  public AuthRouteInit;
   constructor() {
-    this.apiVersion = '/api/v1';
     this.app = express();
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    mongoose.connect(`${config.db.HOST}/${config.db.NAME}`, err => {
+      if (err) throw err;
+      if (process.env.NODE_ENV == 'development') console.log('Mongo connected');
+    })
     this.listen(process.env.PORT);
-    this.RouteInit = new Route();
     this.getRoute();
     this.error();
   }
@@ -35,35 +40,13 @@ class Server {
   }
 
   public getRoute(): void {
-    this.app.use(this.apiVersion, this.RouteInit.route())
+    this.app.use(process.env.APIVERSION, ...routes)
   }
 
-  error() {
+  error(): void {
     ErrorHandler.error.call(this.app);
   }
 
 }
 
 let server = Server.bootstrap();
-
-
-
-
-// app.listen(3000, function () {
-//   console.log('success');
-// })
-
-
-
-
-
-// app.get('/', function (req, res) {
-//   res.end('asdasd');
-// })
-
-// var e: string = 'asdasd';
-
-
-// function admin(): void {
-//   e = '4444';
-// }
