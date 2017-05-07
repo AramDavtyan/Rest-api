@@ -4,6 +4,7 @@ const status = {
   UNAUTHORIZED: 401,
   CREATED: 201,
   FORBIDDEN: 403,
-  BAD_REQUEST: 400
+  BAD_REQUEST: 400,
+  NOT_FOUND: 404
 }
 export default status;
